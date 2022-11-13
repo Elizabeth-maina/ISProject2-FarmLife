@@ -1,0 +1,33 @@
+{% extends 'store/main.html' %} {% load static %} {% block content %}
+<div class="card" style="padding:5px; border: 0; background-color: #02231a;">
+  <label style="color: white;">Search For Produce:</label>
+<form method="get" style="color: white;">
+  {{ myFilter.form }}
+  <button class="btn btn-success rounded" type="submit">Search</button>
+</form>
+</div>
+<div class="row">
+  {% for product in products %}
+  <div class="col-lg-4">
+    <img class="thumbnail" src="{% static product.imageURL %}" />
+    <div class="box-element product">
+      <h6><strong>{{product.name}}</strong></h6>
+      <hr />
+
+      <button
+        data-product="{{product.id}}"
+        data-price="{{product.price}}"
+        data-action="add"
+        class="btn btn-outline-info add-btn update-cart"
+      >
+        Add to Cart
+      </button>
+      <h4 style="float: right">
+        <strong>Kshs.{{product.price|floatformat:2}}</strong>
+      </h4>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}

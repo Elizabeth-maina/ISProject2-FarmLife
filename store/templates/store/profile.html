@@ -1,0 +1,165 @@
+{% extends 'store/main.html' %} {% load static %} {% block content %}
+<div class="container align-self-center" style="color: white">
+  <div class="main-body align-self-center">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-sm-3">
+            <h6 class="mb-0">Full Name</h6>
+          </div>
+          <div class="col-sm-9 text-secondary">
+            <i id="updFirstName" contenteditable="true">{{user.first_name}}</i>
+            <i id="updLastName" contenteditable="true">{{user.last_name}}</i>
+            <button id="updPersonalInfo" class="btn btn-sm btn-success">
+              <i class="fa fa-check"></i>
+            </button>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-sm-3">
+            <h6 class="mb-0">Email</h6>
+          </div>
+          <div class="col-sm-9 text-secondary">
+            <i id="updEmail" contenteditable="true">{{user.email}}</i>
+            <button id="updEmailButton" class="btn btn-sm btn-success">
+              <i class="fa fa-check"></i>
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <hr />
+    <div  style="color:red">
+      <h3  style="color: white"> payments </h3>
+      <table class="table">
+        <thead  style="color: white">
+          <tr> 
+            <th scope="col">Date</th>
+            <th scope="col">Invoice ID</th>
+            <th scope="col">Produce</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Diccount</th>
+            <th scope="col">VAT</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Status</th>
+
+          </tr>
+        </thead>
+        <tbody style="color: white">
+          {% for invoice in invoices %}
+          <tr>
+            <td>{{invoice.date_created}}</td>
+            <td>{{invoice.invoice_id}}</td>
+            <td>{{invoice.product.name}}</td>
+            <td>{{invoice.quantity}}</td>
+            <td>{{invoice.price}}</td>
+            <td>{{invoice.discount}}</td>
+            <td>{{invoice.VAT}}</td>
+            <td>{{invoice.get_total}}</td>
+            <td>
+              {% if order.complete %} Paid {% else %} Pending
+              {% endif %}
+            </td>
+          </tr> 
+          {% empty %}
+          <tr>  
+            <td>No payments received</td>
+          </tr>
+    
+          {% endfor %}
+        </tbody>
+        
+      </table>
+    </div>
+    <hr>
+    <div>
+    
+      <h3 style="color: white"> Orders </h3>
+      <table class="table">
+        <thead>
+          <tr style="color: white">
+            <th scope="col">#</th>
+            <th scope="col">Transaction ID</th>
+            <th scope="col">Date</th>
+            <th scope="col">Order status</th>
+            <th scope="col">Products</th>
+          </tr>
+        </thead>
+        <tbody  style="color: white">
+          {% for order in orders %}
+          {% if order.get_cart_items > 0 %}
+          <tr>
+            <th scope="row">{{order.id}}</th>
+            <td>{{order.transaction_id}}</td>
+            <td>{{order.date_ordered}}</td>
+            <td>
+              {% if order.complete %} Completed {% else %} Awaiting payment
+              {%endif %}
+            </td>
+            <td>
+              <ul style="list-style-type:none;">
+                {% for orderitem in order.get_items %}
+                <li>
+                  <a href="/product/{{orderitem.product.id}}">{{orderitem.product.name}}</a>
+                  (x{{orderitem.quantity}})
+                </li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  let updFirstName = document.getElementById("updFirstName");
+  let updLastName = document.getElementById("updLastName");
+  let updEmail = document.getElementById("updEmail");
+  let updPersonalInfo = document.getElementById("updPersonalInfo");
+  let updEmailButton = document.getElementById("updEmailButton");
+
+  updPersonalInfo.addEventListener("click", () => {
+    let fName = updFirstName.textContent;
+    let lName = updLastName.textContent;
+
+    fetch("/upd_personal_info/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify({
+        fName: fName,
+        lName: lName,
+      }),
+    });
+  });
+
+  updEmailButton.addEventListener("click", () => {
+    let email = updEmail.textContent;
+
+    fetch("/upd_email/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+  });
+</script>
+<style>
+  th,
+  td {
+    text-align: center;
+  }
+</style>
+{% endblock content %}

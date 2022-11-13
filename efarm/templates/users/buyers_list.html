@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<legend style="margin: 10px; padding: 5px; color: black;">Buyers
+  <a href="{% url 'add_buyer' %}">
+    <button type="submit" class="btn btn-success" style="float: right;">
+      <i class="fas fa-plus"> Add Buyer </i>
+    </button></a>
+</legend>
+<hr>
+<form method="get">
+  {{ myFilter.form }}
+  <button class="btn btn-dark rounded" type="submit">Search</button>
+</form><br>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">User</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Email</th>
+      <th scope="col">County</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for buyer in buyers_obj %}
+    <tr>
+
+      <th scope="row" 1></th>
+      <td>{{buyer.get_name}}</td>
+      <td>{{buyer.user}}</td>
+      <td>{{buyer.phone}}</td>
+      <td>{{buyer.email}}</td>
+      <td>{{buyer.county}}</td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="text-center container mt-5">
+  {% if buyer_obj.has_previous %}
+  <a href="?page={{buyers_obj.previos_page_number}}"><button type="button" class="btn btn-light">previous</button></a>
+  {% endif %}
+
+  <a><button type="button" class="btn btn-success">{{buyers_obj.number}}</button></a>
+
+  {% if buyer_obj.has_next %}
+  <a href="?page={{ buyers_obj.next_page_number }}"><button type="button" class="btn btn-light">next</button></a>
+  {% endif %}
+
+</div>
+{% endblock content%}

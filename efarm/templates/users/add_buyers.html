@@ -1,0 +1,31 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% load static %} 
+{% block content %}
+<legend style="margin: 10px; padding: 5px; color: black">
+  Add Buyer
+  <a href="{% url 'buyers' %}">
+    <button type="submit" class="btn btn-success" style="float: right">
+      <i class="fas fa-list"> Buyers List </i>
+    </button></a
+  >
+</legend>
+<hr />
+<form method="POST" style="margin: 10px; padding: 5px">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-6">{{ form.first_name|as_crispy_field}}</div>
+    <div class="col-6">{{ form.second_name|as_crispy_field}}</div>
+    <div class="col-6">{{ form.email|as_crispy_field}}</div>
+    <div class="col-6">{{ form.phone|as_crispy_field}}</div>
+    <div class="col-6">{{ form.county|as_crispy_field}}</div>
+    <div class="col-6">{{ form.user|as_crispy_field}}</div>
+
+  </div>
+  <button type="submit" class="btn btn-success" style="float:right; margin-right: 40px;">
+    Save
+  </button>
+  </div>
+
+
+</form>
+<br />
+{% endblock %}

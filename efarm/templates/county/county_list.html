@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<legend style="margin: 10px; padding: 5px; color: black;">Counties
+  <a href="{% url 'add_county' %}">
+    <button type="submit" class="btn btn-success" style="float: right;">
+      <i class="fas fa-plus"> Add county </i>
+    </button></a>
+</legend>
+<hr>
+<form method="get">
+  {{ myFilter.form }}
+  <button class="btn btn-dark rounded" type="submit">Search</button>
+</form><br>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Address</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Code</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for county in county_obj %}
+    <tr>
+
+      <th scope="row" 1></th>
+      <td>{{county.name}}</td>
+      <td>{{county.email}}</td>
+      <td>{{county.adress}}</td>
+      <td>{{county.phone}}</td>
+      <td>{{county.code}}</td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="text-center container mt-5">
+  {% if county_obj.has_previous %}
+  <a href="?page={{page_obj.previous_page_number}}"><button type="button" class="btn btn-light">previous</button></a>
+  {% endif %}
+
+  <a><button type="button" class="btn btn-success">{{page_obj.number}}</button></a>
+
+  {% if county_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}"><button type="button" class="btn btn-light">next</button></a>
+  {% endif %}
+
+</div>
+{% endblock content%}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<legend style="margin: 10px; padding: 5px; color: black;">farmers
+  <a href="{% url 'add_farmer' %}">
+    <button type="submit" class="btn btn-success" style="float: right;">
+      <i class="fas fa-plus"> Add Farmer </i>
+    </button></a>
+</legend>
+<hr>
+<form method="get">
+  {{ myFilter.form }}
+  <button class="btn btn-dark rounded" type="submit">Search</button>
+</form><br>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Farmer Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Email</th>
+      <th scope="col">Address</th>
+      <th scope="col">County</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for farmer in farmer_obj %}
+    <tr>
+
+      <th scope="row" 1></th>
+      <td>{{farmer.get_name}}</td>
+      <td>{{farmer.age}}</td>
+      <td>{{farmer.gender}}</td>
+      <td>{{farmer.phone}}</td>
+      <td>{{farmer.email}}</td>
+      <td>{{farmer.adress}}</td>
+      <td>{{farmer.county}}</td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="text-center container mt-5">
+  {% if farmer_obj.has_previous %}
+  <a href="?page={{page_obj.previous_page_number}}"><button type="button" class="btn btn-light">previous</button></a>
+  {% endif %}
+
+  <a><button type="button" class="btn btn-success">{{page_obj.number}}</button></a>
+
+  {% if farmer_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}"><button type="button" class="btn btn-light">next</button></a>
+  {% endif %}
+
+</div>
+{% endblock content%}

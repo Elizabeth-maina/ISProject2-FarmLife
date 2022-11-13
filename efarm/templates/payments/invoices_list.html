@@ -1,0 +1,67 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<legend style="margin: 10px; padding: 5px; color: black;">Invoice List
+  <a href="{% url 'add_invoice' %}">
+  <button type="submit" class="btn btn-success" style="float: right;">
+    <i class="fas fa-plus"> Add Invoice</i>
+</button></a>
+</legend>
+<form method="get">
+  {{ myFilter.form }}
+  <button class="btn btn-dark rounded" type="submit">Search</button>
+</form><br>
+<table class="table table-striped">
+
+    <thead>
+      <tr>
+        <th scope="col">Invoice No</th>
+        <th scope="col">Date</th>
+        <th scope="col">Farmer</th>
+        <th scope="col">Product</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+        <th scope="col">Discount</th>
+        <th scope="col">VAT</th>
+        <th scope="col">Total</th>
+        <th scope="col">Paid Via</th>
+
+        
+      </tr>
+    </thead>
+    
+    <tbody>
+        {% for invoice in invoices_obj %}
+      <tr>
+        <td>{{invoice.invoice_no}}</td>
+        <td>{{invoice.date_created}}</td>
+        <td>{{invoice.customer}}</td>
+        <td>{{invoice.product}}</td>
+        <td>{{invoice.quantity}}</td>
+        <td>{{invoice.price}}</td>
+        <td>{{invoice.discount}}</td>
+        <td>{{invoice.VAT}}</td>
+        <td>{{invoice.get_total}}</td>
+        <td>{{invoice.payment_method}}</td>
+
+      
+      </tr>
+      {% endfor %}
+    </tbody>
+   
+  </table>
+  <div class="text-center container mt-5">
+    {% if invoices_obj.has_previous %}
+      <a class="poppins-font p-2" href="?page={{invoices_obj.previous_page_number}}">previous</a>
+    {% endif %}
+
+    <a class="p-2 active-btn poppins-font text-dark" style="background-color:lightgreen;">{{invoices_obj.number}}</a>
+    
+    {% if invoices_obj.has_next %}
+      <a class="p-2 poppins-font" href="?page={{ invoices_obj.next_page_number }}">next</a>
+    {% endif %}
+
+  </div>
+{% endblock content%}

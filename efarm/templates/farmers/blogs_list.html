@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<legend style="margin: 10px; padding: 5px; color: black;">Blogs
+  <a href="{% url 'add_blog' %}">
+    <button type="submit" class="btn btn-success" style="float: right;">
+      <i class="fas fa-plus"> Add Blogs </i>
+    </button></a>
+</legend>
+<hr>
+<form method="get">
+  {{ myFilter.form }}
+  <button class="btn btn-dark rounded" type="submit">Search</button>
+</form><br>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Image</th>
+      <th scope="col">Date Created</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for blog in blogs_obj %}
+    <tr>
+
+      <th scope="row" 1></th>
+      <td>{{blog.title}}</td>
+      <td>{{blog.imageURL}}</td>
+      <td>{{blog.date_created}}</td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="text-center container mt-5">
+  {% if blogs_obj.has_previous %}
+  <a href="?page={{blogs_obj.previous_page_number}}"><button type="button" class="btn btn-light">previous</button></a>
+  {% endif %}
+
+  <a><button type="button" class="btn btn-success">{{blogs_obj.number}}</button></a>
+
+  {% if blogs_obj.has_next %}
+  <a href="?page={{ blogs_obj.next_page_number }}"><button type="button" class="btn btn-light">next</button></a>
+  {% endif %}
+
+</div>
+{% endblock content%}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% load static %} 
+{% block content %}
+<legend style="margin: 10px; padding: 5px; color: black">
+  Add Blog
+  <a href="{% url 'blogs' %}">
+    <button type="submit" class="btn btn-success" style="float: right">
+      <i class="fas fa-list"> Blogs</i>
+    </button></a
+  >
+</legend>
+<hr />
+<form method="POST"  enctype="multipart/form-data" style="margin: 10px; padding: 5px">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-6">{{ form.title|as_crispy_field}}</div>
+  </div>
+    <div class="row">
+
+    <div class="col-6">{{ form.content|as_crispy_field }}</div>
+    </div>
+    <div class="row">
+    <div class="col-6">{{ form.image|as_crispy_field }}</div>
+  </div>
+  <button type="submit" class="btn btn-success" style="float:right; margin-right: 40px;">
+    Post Blog
+  </button>
+  </div>
+
+
+</form>
+<br />
+{% endblock %}
